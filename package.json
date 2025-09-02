@@ -7,7 +7,7 @@
     "collect": "node src/collector/collect-news.js",
     "generate": "node src/generator/generate-site.js",
     "build": "npm run collect && npm run generate",
-    "update": "npm run build && git add . && git commit -m \"Daily news update - $(date +%Y-%m-%d)\" && git push origin main"
+    "update": "npm run build && git add . && git commit -m \"每日新闻更新 - $(date +%Y-%m-%d)\" && git push origin main"
   },
   "dependencies": {
     "axios": "^1.6.0",

@@ -132,7 +132,7 @@ function generateIndexPage(content, distDir) {
   });
   
   fs.writeFileSync(path.join(distDir, 'index.html'), html);
-  console.log(`Generated index page for ${latestDate}`);
+  console.log(`已生成 ${latestDate} 的首页`);
 }
 
 function generateDailyPages(content, distDir) {
@@ -154,7 +154,7 @@ function generateDailyPages(content, distDir) {
     fs.writeFileSync(path.join(dateDir, 'index.html'), html);
   });
   
-  console.log(`Generated ${Object.keys(content).length} daily pages`);
+  console.log(`已生成 ${Object.keys(content).length} 个每日页面`);
 }
 
 function generateArchivePage(content, distDir) {
@@ -178,7 +178,7 @@ function generateArchivePage(content, distDir) {
   }
   
   fs.writeFileSync(path.join(archiveDir, 'index.html'), html);
-  console.log('Generated archive page');
+  console.log('已生成归档页面');
 }
 
 function copyStaticFiles(distDir) {
@@ -197,11 +197,11 @@ function copyStaticFiles(distDir) {
     );
   });
   
-  console.log('Copied static files');
+  console.log('已复制静态文件');
 }
 
 async function generateSite() {
-  console.log('Generating site...');
+  console.log('正在生成网站...');
   
   const distDir = path.join(__dirname, '../../docs'); // Output to docs directory for GitHub Pages
   
@@ -231,7 +231,7 @@ async function generateSite() {
     fs.copyFileSync(cnamePath, path.join(distDir, 'CNAME'));
   }
   
-  console.log('Site generated successfully!');
+  console.log('网站生成完成！');
 }
 
 if (require.main === module) {

@@ -21,6 +21,26 @@ const NEWS_SOURCES = [
     name: 'AI News',
     url: 'https://www.artificialintelligence-news.com/feed/',
     isRSS: true
+  },
+  {
+    name: '机器之心',
+    url: 'https://www.jiqizhixin.com/rss',
+    isRSS: true
+  },
+  {
+    name: 'AI科技大本营',
+    url: 'https://blog.csdn.net/qq_41839688/rss/list',
+    isRSS: true
+  },
+  {
+    name: 'InfoQ 中文',
+    url: 'https://www.infoq.cn/feed',
+    isRSS: true
+  },
+  {
+    name: '36氪',
+    url: 'https://36kr.com/feed',
+    isRSS: true
   }
 ];
 
@@ -77,20 +97,26 @@ async function scrapeWebsite(source) {
 
 function filterAINews(items) {
   const aiKeywords = [
+    // English keywords
     'AI', 'artificial intelligence', 'machine learning', 'deep learning',
     'neural network', 'GPT', 'LLM', 'language model', 'ChatGPT',
     'Claude', 'Gemini', 'automation', 'coding assistant', 'GitHub Copilot',
-    'OpenAI', 'Anthropic', 'Google AI', 'Microsoft AI'
+    'OpenAI', 'Anthropic', 'Google AI', 'Microsoft AI',
+    // Chinese keywords
+    '人工智能', 'AI', '机器学习', '深度学习', '神经网络',
+    '大模型', '语言模型', '自动化', '编程助手', '代码生成',
+    '智能编程', 'AI编程', '开发工具', 'Copilot', 'ChatGPT',
+    '文心一言', '通义千问', '智谱AI', '百度AI', '阿里AI'
   ];
   
   return items.filter(item => {
     const text = (item.title + ' ' + (item.description || '')).toLowerCase();
-    return aiKeywords.some(keyword => text.includes(keyword.toLowerCase()));
+    return aiKeywords.some(keyword => text.toLowerCase().includes(keyword.toLowerCase()));
   });
 }
 
 async function collectNews() {
-  console.log('Collecting AI programming news...');
+  console.log('正在收集AI编程新闻...');
   
   let allNews = [];
   
@@ -138,7 +164,7 @@ async function collectNews() {
   const filePath = path.join(contentDir, `${today}.json`);
   fs.writeFileSync(filePath, JSON.stringify(sortedNews, null, 2));
   
-  console.log(`Collected ${sortedNews.length} AI news items for ${today}`);
+  console.log(`已收集 ${sortedNews.length} 条AI新闻 ${today}`);
   return sortedNews;
 }
 
