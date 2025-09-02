@@ -49,6 +49,10 @@ async function fetchRSSFeed(feedUrl) {
     const response = await axios.get(feedUrl);
     const $ = cheerio.load(response.data, { xmlMode: true });
     
+    // Find source name from NEWS_SOURCES
+    const sourceInfo = NEWS_SOURCES.find(s => s.url === feedUrl);
+    const sourceName = sourceInfo ? sourceInfo.name : feedUrl;
+    
     const items = [];
     $('item').each((i, item) => {
       const $item = $(item);
@@ -57,7 +61,7 @@ async function fetchRSSFeed(feedUrl) {
         link: $item.find('link').text(),
         description: $item.find('description').text(),
         pubDate: $item.find('pubDate').text(),
-        source: feedUrl
+        source: sourceName
       });
     });
     

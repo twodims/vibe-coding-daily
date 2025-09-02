@@ -70,6 +70,12 @@ function renderTemplate(template, data) {
       return formatDate(dateStr);
     }
     
+    // decodeHtml helper
+    if (trimmed.startsWith('decodeHtml ')) {
+      const varName = trimmed.replace('decodeHtml ', '').trim();
+      return decodeHtmlEntities(data[varName] || '');
+    }
+    
     // lookup helper for archive
     if (trimmed.startsWith('lookup ')) {
       const match = trimmed.match(/lookup ([^ ]+) ([^ ]+)/);
@@ -87,8 +93,18 @@ function renderTemplate(template, data) {
 }
 
 function formatDate(dateStr) {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString('en-US', {
+  if (!dateStr) return '';
+  
+  // Clean up date string by removing extra spaces
+  const cleanDateStr = dateStr.trim();
+  const date = new Date(cleanDateStr);
+  
+  // Check if date is valid
+  if (isNaN(date.getTime())) {
+    return '';
+  }
+  
+  return date.toLocaleDateString('zh-CN', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
