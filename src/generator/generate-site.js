@@ -177,7 +177,13 @@ function copyStaticFiles(distDir) {
 async function generateSite() {
   console.log('Generating site...');
   
-  const distDir = path.join(__dirname, '../..'); // Output to root for GitHub Pages
+  const distDir = path.join(__dirname, '../../docs'); // Output to docs directory for GitHub Pages
+  
+  // Clean docs directory
+  if (fs.existsSync(distDir)) {
+    fs.rmSync(distDir, { recursive: true });
+  }
+  fs.mkdirSync(distDir, { recursive: true });
   
   // Load content
   const content = loadContent();
@@ -187,6 +193,17 @@ async function generateSite() {
   generateDailyPages(content, distDir);
   generateArchivePage(content, distDir);
   copyStaticFiles(distDir);
+  
+  // Copy .nojekyll and CNAME if they exist
+  const nojekyllPath = path.join(__dirname, '../../.nojekyll');
+  if (fs.existsSync(nojekyllPath)) {
+    fs.copyFileSync(nojekyllPath, path.join(distDir, '.nojekyll'));
+  }
+  
+  const cnamePath = path.join(__dirname, '../../CNAME');
+  if (fs.existsSync(cnamePath)) {
+    fs.copyFileSync(cnamePath, path.join(distDir, 'CNAME'));
+  }
   
   console.log('Site generated successfully!');
 }

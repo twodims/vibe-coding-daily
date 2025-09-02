@@ -21,7 +21,7 @@ npm run generate
 
 # Add and commit changes
 echo "💾 Committing changes..."
-git add .
+git add docs/
 git commit -m "Daily news update - $(date +%Y-%m-%d)"
 
 echo "📤 Pushing to GitHub..."
