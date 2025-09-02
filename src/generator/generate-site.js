@@ -177,13 +177,7 @@ function copyStaticFiles(distDir) {
 async function generateSite() {
   console.log('Generating site...');
   
-  const distDir = path.join(__dirname, '../../dist');
-  
-  // Clean dist directory
-  if (fs.existsSync(distDir)) {
-    fs.rmSync(distDir, { recursive: true });
-  }
-  fs.mkdirSync(distDir, { recursive: true });
+  const distDir = path.join(__dirname, '../..'); // Output to root for GitHub Pages
   
   // Load content
   const content = loadContent();
@@ -193,12 +187,6 @@ async function generateSite() {
   generateDailyPages(content, distDir);
   generateArchivePage(content, distDir);
   copyStaticFiles(distDir);
-  
-  // Create CNAME file if needed
-  const cnamePath = path.join(__dirname, '../../CNAME');
-  if (fs.existsSync(cnamePath)) {
-    fs.copyFileSync(cnamePath, path.join(distDir, 'CNAME'));
-  }
   
   console.log('Site generated successfully!');
 }

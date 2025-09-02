@@ -7,13 +7,12 @@
     "collect": "node src/collector/collect-news.js",
     "generate": "node src/generator/generate-site.js",
     "build": "npm run collect && npm run generate",
-    "deploy": "gh-pages -d dist"
+    "update": "npm run build && git add . && git commit -m \"Daily news update - $(date +%Y-%m-%d)\" && git push origin main"
   },
   "dependencies": {
     "axios": "^1.6.0",
     "cheerio": "^1.0.0",
     "dotenv": "^16.3.1",
-    "gh-pages": "^6.1.0",
     "marked": "^9.1.0"
   },
   "devDependencies": {},
