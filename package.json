@@ -1,0 +1,23 @@
+{
+  "name": "ai-programming-news",
+  "version": "1.0.0",
+  "description": "Daily AI programming news website",
+  "main": "index.js",
+  "scripts": {
+    "collect": "node src/collector/collect-news.js",
+    "generate": "node src/generator/generate-site.js",
+    "build": "npm run collect && npm run generate",
+    "deploy": "gh-pages -d dist"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0",
+    "dotenv": "^16.3.1",
+    "gh-pages": "^6.1.0",
+    "marked": "^9.1.0"
+  },
+  "devDependencies": {},
+  "keywords": ["ai", "programming", "news", "github-pages"],
+  "author": "",
+  "license": "MIT"
+}

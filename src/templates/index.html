@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Programming News - {{date}}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>AI Programming News</h1>
+            <p class="subtitle">Daily updates on AI programming and development</p>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/archive/">Archive</a>
+                <a href="/about/">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="date-header">
+            <h2>{{date}}</h2>
+            <p>{{newsCount}} news items today</p>
+        </section>
+
+        <section class="news-list">
+            {{#each news}}
+            <article class="news-item">
+                <h3><a href="{{this.link}}" target="_blank" rel="noopener">{{this.title}}</a></h3>
+                <div class="meta">
+                    {{#if this.source}}
+                    <span class="source">{{this.source}}</span>
+                    {{/if}}
+                    {{#if this.pubDate}}
+                    <span class="date">{{formatDate this.pubDate}}</span>
+                    {{/if}}
+                </div>
+                {{#if this.description}}
+                <p class="description">{{{truncate this.description 200}}}</p>
+                {{/if}}
+            </article>
+            {{/each}}
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Generated automatically • <a href="https://github.com/twodims/vibe-coding-daily">Source</a></p>
+        </div>
+    </footer>
+</body>
+</html>
