@@ -172,11 +172,11 @@ main {
 /* Date header */
 .date-header {
   background: var(--bg-primary);
-  padding: 3rem;
-  border-radius: 1rem;
-  box-shadow: var(--shadow-md);
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-sm);
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   border: 1px solid var(--border);
 }
 
@@ -195,65 +195,47 @@ main {
 /* News list */
 .news-list {
   display: grid;
-  gap: 1.5rem;
+  gap: 0.75rem;
 }
 
 .news-item {
   background: var(--bg-primary);
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: var(--shadow);
+  border-radius: 0.5rem;
   border: 1px solid var(--border);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
+  transition: all 0.2s ease;
 }
 
-.news-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: var(--gradient-primary);
-  transform: scaleY(0);
-  transition: transform 0.3s ease;
+.news-link {
+  display: block;
+  padding: 1rem 1.5rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: all 0.2s ease;
 }
 
 .news-item:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  background: var(--bg-secondary);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-sm);
 }
 
-.news-item:hover::before {
-  transform: scaleY(1);
-}
-
-.news-item h3 {
-  margin-bottom: 1rem;
-  line-height: 1.4;
-}
-
-.news-item h3 a {
+.news-title {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 0;
   color: var(--text-primary);
-  text-decoration: none;
-  font-size: 1.25rem;
-  font-weight: 600;
-  transition: color 0.3s ease;
-  display: block;
-  line-height: 1.4;
+  transition: color 0.2s ease;
 }
 
-.news-item h3 a:hover {
+.news-item:hover .news-title {
   color: var(--primary);
 }
 
-.news-item .summary {
-  color: var(--text-secondary);
-  line-height: 1.6;
-  font-size: 0.95rem;
-  margin-top: 0.75rem;
+.news-item .meta {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  opacity: 0.8;
 }
 
 .meta {
@@ -414,7 +396,7 @@ footer a:hover {
   }
   
   .date-header {
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1rem;
   }
   
   .date-header h2 {
@@ -422,7 +404,11 @@ footer a:hover {
   }
   
   .news-item {
-    padding: 1.5rem;
+    padding: 0;
+  }
+  
+  .news-link {
+    padding: 0.875rem 1.25rem;
   }
   
   .archive-grid {

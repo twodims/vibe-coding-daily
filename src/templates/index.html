@@ -57,18 +57,17 @@
         <section class="news-list">
             {{#each news}}
             <article class="news-item">
-                <h3><a href="/vibe-coding-daily/news/{{../date}}/{{@index}}/" class="news-title">{{this.title}}</a></h3>
-                <div class="meta">
-                    {{#if this.source}}
-                    <span class="source">{{this.source}}</span>
-                    {{/if}}
-                    {{#if this.pubDate}}
-                    <span class="date">{{formatDate this.pubDate}}</span>
-                    {{/if}}
-                </div>
-                {{#if this.description}}
-                <p class="summary">{{{truncate (decodeHtml this.description) 200}}}</p>
-                {{/if}}
+                <a href="/vibe-coding-daily/news/{{../date}}/{{@index}}/" class="news-link">
+                    <h3 class="news-title">{{this.title}}</h3>
+                    <div class="meta">
+                        {{#if this.source}}
+                        <span class="source">{{this.source}}</span>
+                        {{/if}}
+                        {{#if this.pubDate}}
+                        <span class="date">{{formatDate this.pubDate}}</span>
+                        {{/if}}
+                    </div>
+                </a>
             </article>
             {{/each}}
         </section>
