@@ -31,10 +31,10 @@ function renderTemplate(template, data) {
         
         // Handle truncate helper for description
         if (prop === 'description' && value) {
-          const truncateMatch = loopTemplate.match(/\{\{truncate this\.description (\d+)\}\}/);
+          const truncateMatch = loopTemplate.match(/\{\{truncate \(decodeHtml this\.description\) (\d+)\}\}/);
           if (truncateMatch) {
             const length = parseInt(truncateMatch[1]);
-            return truncate(value, length);
+            return truncate(decodeHtmlEntities(value), length);
           }
         }
         
@@ -137,10 +137,13 @@ function generateIndexPage(content, distDir) {
 
 function generateDailyPages(content, distDir) {
   const indexTemplate = fs.readFileSync(path.join(__dirname, '../templates/index.html'), 'utf8');
+  const articleTemplate = fs.readFileSync(path.join(__dirname, '../templates/article.html'), 'utf8');
   
   Object.keys(content).forEach(date => {
     const news = content[date];
-    const html = renderTemplate(indexTemplate, {
+    
+    // Generate daily index page
+    const dailyHtml = renderTemplate(indexTemplate, {
       date: formatDate(date),
       newsCount: news.length,
       news: news
@@ -151,7 +154,26 @@ function generateDailyPages(content, distDir) {
       fs.mkdirSync(dateDir, { recursive: true });
     }
     
-    fs.writeFileSync(path.join(dateDir, 'index.html'), html);
+    fs.writeFileSync(path.join(dateDir, 'index.html'), dailyHtml);
+    
+    // Generate article detail pages
+    news.forEach((item, index) => {
+      const newsDir = path.join(distDir, 'news', date, index.toString());
+      if (!fs.existsSync(newsDir)) {
+        fs.mkdirSync(newsDir, { recursive: true });
+      }
+      
+      const articleHtml = renderTemplate(articleTemplate, {
+        title: item.title,
+        source: item.source,
+        pubDate: item.pubDate,
+        description: item.description,
+        link: item.link,
+        date: date
+      });
+      
+      fs.writeFileSync(path.join(newsDir, 'index.html'), articleHtml);
+    });
   });
   
   console.log(`已生成 ${Object.keys(content).length} 个每日页面`);

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI编程日报 - {{date}}</title>
+    <title>告别无效计算！新TTS框架拯救19%被埋没答案，推理准确率飙升 - AI编程日报</title>
     <link rel="stylesheet" href="/vibe-coding-daily/static/style.css">
     <link rel="icon" type="image/png" href="/vibe-coding-daily/static/favicon.png">
     <script>
@@ -48,30 +48,31 @@
         </div>
     </header>
 
-    <main class="container">
-        <section class="date-header">
-            <h2>{{date}}</h2>
-            <p>今日 {{newsCount}} 条新闻</p>
-        </section>
-
-        <section class="news-list">
-            {{#each news}}
-            <article class="news-item">
-                <h3><a href="/vibe-coding-daily/news/{{../date}}/{{@index}}/" class="news-title">{{this.title}}</a></h3>
+    <main class="container article-page">
+        <article class="news-detail">
+            <header class="article-header">
+                <h1>告别无效计算！新TTS框架拯救19%被埋没答案，推理准确率飙升</h1>
                 <div class="meta">
-                    {{#if this.source}}
-                    <span class="source">{{this.source}}</span>
-                    {{/if}}
-                    {{#if this.pubDate}}
-                    <span class="date">{{formatDate this.pubDate}}</span>
-                    {{/if}}
+                    
+                    <span class="source">https://www.jiqizhixin.com/rss</span>
+                    
+                    
+                    <span class="date">Invalid Date</span>
+                    
                 </div>
-                {{#if this.description}}
-                <p class="summary">{{{truncate (decodeHtml this.description) 200}}}</p>
-                {{/if}}
-            </article>
-            {{/each}}
-        </section>
+            </header>
+            
+            <div class="article-content">
+                
+                <div class="description">}</div>
+                
+            </div>
+            
+            <footer class="article-footer">
+                <a href="https://www.jiqizhixin.com/articles/2025-09-02-9" target="_blank" rel="noopener" class="read-more">阅读原文 →</a>
+                <a href="/vibe-coding-daily/2025-09-02/" class="back-to-list">← 返回当日新闻列表</a>
+            </footer>
+        </article>
     </main>
 
     <footer>
