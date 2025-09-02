@@ -2,46 +2,72 @@ const fs = require('fs');
 const path = require('path');
 const marked = require('marked');
 
+// Function to convert HTML entities back to HTML
+function decodeHtmlEntities(text) {
+  if (!text) return '';
+  return text
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
 // Simple template engine
 function renderTemplate(template, data) {
   let result = template;
   
-  // Handle simple variables
-  result = result.replace(/\{\{([^}]+)\}\}/g, (match, key) => {
-    const trimmedKey = key.trim();
-    return data[trimmedKey] !== undefined ? data[trimmedKey] : '';
-  });
-  
-  // Handle each loops
-  result = result.replace(/\{\{#each ([^}]+)\}\}([\s\S]*?)\{\{\/each\}\}/g, (match, arrayKey, template) => {
+  // Handle each loops first
+  result = result.replace(/\{\{#each ([^}]+)\}\}([\s\S]*?)\{\{\/each\}\}/g, (match, arrayKey, loopTemplate) => {
     const array = data[arrayKey.trim()];
     if (!Array.isArray(array)) return '';
     
     return array.map(item => {
-      return template.replace(/\{\{this\.([^}]+)\}\}/g, (m, prop) => {
-        return item[prop] || '';
+      let itemHtml = loopTemplate;
+      
+      // Handle this.properties in the loop
+      itemHtml = itemHtml.replace(/\{\{this\.([^}]+)\}\}/g, (m, prop) => {
+        const value = item[prop] || '';
+        
+        // Handle truncate helper for description
+        if (prop === 'description' && value) {
+          const truncateMatch = loopTemplate.match(/\{\{truncate this\.description (\d+)\}\}/);
+          if (truncateMatch) {
+            const length = parseInt(truncateMatch[1]);
+            return truncate(value, length);
+          }
+        }
+        
+        return value;
       });
+      
+      // Handle formatDate for pubDate
+      itemHtml = itemHtml.replace(/\{\{formatDate this\.pubDate\}\}/g, (m) => {
+        return formatDate(item.pubDate);
+      });
+      
+      // Handle conditional blocks
+      itemHtml = itemHtml.replace(/\{\{#if this\.([^}]+)\}\}([\s\S]*?)\{\{\/if\}\}/g, (m, condition, content) => {
+        return item[condition] ? content : '';
+      });
+      
+      // Handle decodeHtml helper
+      itemHtml = itemHtml.replace(/\{\{decodeHtml this\.description\}\}/g, (m) => {
+        return decodeHtmlEntities(item.description || '');
+      });
+      
+      return itemHtml;
     }).join('');
   });
   
-  // Handle helpers
-  result = result.replace(/\{\{([^}]+)\}\}/g, (match, expr) => {
-    const trimmed = expr.trim();
+  // Handle simple variables
+  result = result.replace(/\{\{([^}]+)\}\}/g, (match, key) => {
+    const trimmed = key.trim();
     
     // formatDate helper
     if (trimmed.startsWith('formatDate ')) {
       const dateStr = trimmed.replace('formatDate ', '').trim();
       return formatDate(dateStr);
-    }
-    
-    // truncate helper
-    if (trimmed.startsWith('truncate ')) {
-      const match = trimmed.match(/truncate ([^ ]+) (\d+)/);
-      if (match) {
-        const text = match[1];
-        const length = parseInt(match[2]);
-        return truncate(text, length);
-      }
     }
     
     // lookup helper for archive
